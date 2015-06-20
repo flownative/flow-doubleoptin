@@ -1,0 +1,4 @@
+Flownative_DoubleOptIn_TokenCache:
+  backendOptions:
+    defaultLifetime: 86400
+  persistent: true

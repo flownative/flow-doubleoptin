@@ -1,0 +1,27 @@
+Flownative:
+  DoubleOptIn:
+    presets:
+      # the default preset is used if no other preset is requested
+      'default':
+        # the length of the generated token, in characters
+        tokenLength: 32
+        # how long a token should be valid after generation, in seconds
+        lifetime: 86400
+        # configuration for building an activation link for a token
+        activation:
+          # if uri is given as a string, the placeholder %s will be replaced with the token
+          # not yet implemented: if uri is a hash, it is assumed to be UriBuilder input as used in Routes.yaml
+          uri: ~
+        mail:
+          # name and email address to use for activation mails
+          from:
+            name: ~
+            address: ~
+          # subject to use for activation mails
+          subject: 'Double Opt-In Activation Needed'
+          # the message for the activation mail must contain a plain text part. an html part is optional
+          # the settings must point to a Fluid template file. placeholders available in the templates when
+          # being rendered: activationLink, recipientAddress, meta
+          message:
+            plaintext: 'resource://Flownative.DoubleOptIn/Private/Templates/ActivationMail.txt'
+            html: ~

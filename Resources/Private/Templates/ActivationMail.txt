@@ -1,0 +1,7 @@
+Hello,
+
+please click on the following link to activate:
+
+{activationLink}
+
+This email has been sent to {recipientAddress}.

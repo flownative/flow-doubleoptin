@@ -1,0 +1,9 @@
+Flownative\DoubleOptIn\Helper:
+  properties:
+    tokenCache:
+      object:
+        factoryObjectName: TYPO3\Flow\Cache\CacheManager
+        factoryMethodName: getCache
+        arguments:
+          1:
+            value: Flownative_DoubleOptIn_TokenCache

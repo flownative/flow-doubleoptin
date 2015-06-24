@@ -38,7 +38,6 @@ class TokenConverter extends AbstractTypeConverter {
 	 */
 	public function convertFrom($source, $targetType, array $convertedChildProperties = [], \TYPO3\Flow\Property\PropertyMappingConfigurationInterface $configuration = NULL) {
 		$doubleOptinHelper = new Helper();
-		$token =  $doubleOptinHelper->validateTokenHash($source);
-		return $token instanceof Token ? $token : NULL;
+		return $doubleOptinHelper->validateTokenHash($source);
 	}
 }

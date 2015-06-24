@@ -75,12 +75,14 @@ class Helper {
 	/**
 	 * This checks if a given hash is known and still valid before returning the associated Token.
 	 *
+	 * If no valid Token is found for the hash, NULL is returned.
+	 *
 	 * @param $tokenHash
-	 * @return boolean|Token
+	 * @return Token
 	 */
 	public function validateTokenHash($tokenHash) {
 		if (!$this->tokenCache->has($tokenHash)) {
-			return FALSE;
+			return NULL;
 		}
 
 		$tokenData = $this->tokenCache->get($tokenHash);

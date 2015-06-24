@@ -69,7 +69,7 @@ class Helper {
 			$preset['lifetime']
 		);
 
-		return new Token($tokenHash, $identifier, $presetName, $meta);
+		return new Token($tokenHash, $identifier, $preset, $meta);
 	}
 
 	/**
@@ -86,7 +86,7 @@ class Helper {
 		$tokenData = $this->tokenCache->get($tokenHash);
 		$this->tokenCache->remove($tokenHash);
 
-		return new Token($tokenHash, $tokenData['identifier'], $tokenData['presetName'], $tokenData['meta']);
+		return new Token($tokenHash, $tokenData['identifier'], $this->getPreset($tokenData['presetName']), $tokenData['meta']);
 	}
 
 	/**

@@ -3,7 +3,7 @@ Flownative:
     presets:
       # the default preset is used if no other preset is requested
       'default':
-        # the length of the generated token, in characters
+        # the length of the generated token, in bytes, before hex encoding
         tokenLength: 32
         # how long a token should be valid after generation, in seconds
         lifetime: 86400

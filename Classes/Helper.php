@@ -36,6 +36,12 @@ class Helper {
 	protected $fluidView;
 
 	/**
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Log\LoggerInterface
+	 */
+	protected $logger;
+
+	/**
 	 * @Flow\InjectConfiguration(path="presets")
 	 * @var array
 	 */
@@ -69,6 +75,9 @@ class Helper {
 			$preset['lifetime']
 		);
 
+		$expiryTime = new \DateTime(sprintf('now +%s seconds', $preset['lifetime']));
+		$this->logger->log(sprintf('Token with hash %s generated for identifier %s (valid until %s) [%s]', $tokenHash, $identifier, $expiryTime->format('Y-m-d H:i:s'), $presetName), LOG_INFO);
+
 		return new Token($tokenHash, $identifier, $preset, $meta);
 	}
 
@@ -81,12 +90,17 @@ class Helper {
 	 * @return Token
 	 */
 	public function validateTokenHash($tokenHash) {
-		if (!$this->tokenCache->has($tokenHash)) {
+		$tokenData = $this->tokenCache->get($tokenHash);
+
+		if ($tokenData === FALSE) {
+			$this->logger->log(sprintf('Validation of token hash %s failed', $tokenHash), LOG_INFO);
+
 			return NULL;
 		}
 
-		$tokenData = $this->tokenCache->get($tokenHash);
 		$this->tokenCache->remove($tokenHash);
+
+		$this->logger->log(sprintf('Validated token hash %s for identifier %s', $tokenHash, $tokenData['identifier']), LOG_INFO);
 
 		return new Token($tokenHash, $tokenData['identifier'], $this->getPreset($tokenData['presetName']), $tokenData['meta']);
 	}
@@ -100,17 +114,20 @@ class Helper {
 	 */
 	public function getActivationLink(Token $token) {
 		$activationConfiguration = $token->getPreset()['activation'];
-		$tokenHash = $token->getHash();
 
 		if ($activationConfiguration['uri'] === NULL) {
 			throw new \RuntimeException('Building activation link failed, no uri configuration is set', 1434728943);
 		} elseif (is_array($activationConfiguration['uri'])) {
 			throw new \RuntimeException('Not yet implemented', 1434710910);
 		} elseif (is_string($activationConfiguration['uri'])) {
-			return sprintf($activationConfiguration['uri'], $tokenHash);
+			$link = sprintf($activationConfiguration['uri'], $token->getHash());
 		} else {
 			throw new \RuntimeException('Building activation link failed, uri configuration is invalid (neither array nor string)', 1434732898);
 		}
+
+		$this->logger->log(sprintf('Activation link built for token with hash %s', $token->getHash(), $token->getIdentifier()), LOG_INFO);
+
+		return $link;
 	}
 
 	/**
@@ -148,6 +165,8 @@ class Helper {
 			$mail->setBody($this->fluidView->render(), 'text/html');
 		}
 		$mail->send();
+
+		$this->logger->log(sprintf('Activation mail sent to %s for token with hash %s', $recipientAddress, $token->getHash()), LOG_INFO);
 	}
 
 	/**

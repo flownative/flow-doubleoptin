@@ -16,12 +16,6 @@ use TYPO3\Flow\Annotations as Flow;
 class Token {
 
 	/**
-	 * @Flow\InjectConfiguration(path="presets")
-	 * @var array
-	 */
-	protected $presets;
-
-	/**
 	 * @var string
 	 */
 	protected $hash;
@@ -32,9 +26,9 @@ class Token {
 	protected $identifier;
 
 	/**
-	 * @var string
+	 * @var array
 	 */
-	protected $presetName;
+	protected $preset;
 
 	/**
 	 * @var array
@@ -46,13 +40,13 @@ class Token {
 	 *
 	 * @param string $hash
 	 * @param string $identifier
-	 * @param string $presetName
+	 * @param string $preset
 	 * @param array $meta
 	 */
-	public function __construct($hash, $identifier, $presetName, array $meta = []) {
+	public function __construct($hash, $identifier, array $preset, array $meta = []) {
 		$this->hash = $hash;
 		$this->identifier = $identifier;
-		$this->presetName = $presetName;
+		$this->preset = $preset;
 		$this->meta = $meta;
 	}
 
@@ -82,7 +76,7 @@ class Token {
 	 * @return array
 	 */
 	public function getPreset() {
-		return isset($this->presets[$this->presetName]) ? $this->presets[$this->presetName] : [];
+		return $this->preset;
 	}
 
 	/**

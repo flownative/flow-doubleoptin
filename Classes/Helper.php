@@ -7,6 +7,7 @@ namespace Flownative\DoubleOptIn;
  *                                                                        */
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Mvc\ActionRequest;
 use TYPO3\Flow\Utility\Algorithms;
 use TYPO3\Flow\Utility\Arrays;
 use TYPO3\SwiftMailer\Message;
@@ -34,6 +35,17 @@ class Helper {
 	 * @var \TYPO3\Fluid\View\StandaloneView
 	 */
 	protected $fluidView;
+
+	/**
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Mvc\Routing\UriBuilder
+	 */
+	protected $uriBuilder;
+
+	/**
+	 * @var ActionRequest
+	 */
+	protected $request;
 
 	/**
 	 * @Flow\InjectConfiguration(path="presets")
@@ -105,12 +117,25 @@ class Helper {
 		if ($activationConfiguration['uri'] === NULL) {
 			throw new \RuntimeException('Building activation link failed, no uri configuration is set', 1434728943);
 		} elseif (is_array($activationConfiguration['uri'])) {
-			throw new \RuntimeException('Not yet implemented', 1434710910);
+			$routerConfiguration = $activationConfiguration['uri'];
+
+			$this->uriBuilder->setRequest($this->request);
+			$uri = $this->uriBuilder
+				->setCreateAbsoluteUri(TRUE)
+				->uriFor(
+					$routerConfiguration['@action'],
+					$routerConfiguration['arguments'],
+					$routerConfiguration['@controller'],
+					$routerConfiguration['@package'],
+					$routerConfiguration['@subpackage']
+				);
 		} elseif (is_string($activationConfiguration['uri'])) {
-			return sprintf($activationConfiguration['uri'], $tokenHash);
+			$uri = $activationConfiguration['uri'];
 		} else {
 			throw new \RuntimeException('Building activation link failed, uri configuration is invalid (neither array nor string)', 1434732898);
 		}
+
+		return str_replace('-tokenhash-', $tokenHash, $uri);
 	}
 
 	/**
@@ -123,7 +148,7 @@ class Helper {
 	 * @param array $additionalTemplateVariables
 	 * @return int
 	 */
-	public function sendActivationMail($recipientAddress, Token $token, array $additionalTemplateVariables = array()) {
+	public function sendActivationMail($recipientAddress, Token $token, array $additionalTemplateVariables = []) {
 		$preset = $token->getPreset();
 		$activationLink = $this->getActivationLink($token);
 
@@ -149,6 +174,16 @@ class Helper {
 			$mail->setBody($this->fluidView->render(), 'text/html');
 		}
 		return $mail->send();
+	}
+
+	/**
+	 * Allows to set the action request (needed for building activation links using the router).
+	 *
+	 * @param ActionRequest $request
+	 * @return void
+	 */
+	public function setRequest(ActionRequest $request) {
+		$this->request = $request;
 	}
 
 	/**

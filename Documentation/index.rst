@@ -53,7 +53,7 @@ To adjust this default preset, override as usual:
          'default':
            tokenLength: 8
            activation:
-             uri: 'http://acme.com/?validate=%s'
+             uri: 'http://acme.com/?validate=-tokenhash-'
 
 To create a custom preset, simply specify the needed differences to the `default` preset, the
 settings are merged with the defaults before use.

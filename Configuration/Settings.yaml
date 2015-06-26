@@ -9,9 +9,19 @@ Flownative:
         lifetime: 86400
         # configuration for building an activation link for a token
         activation:
-          # if uri is given as a string, the placeholder %s will be replaced with the token
-          # not yet implemented: if uri is a hash, it is assumed to be UriBuilder input as used in Routes.yaml
-          uri: ~
+          # if uri is given as a string, it is used as given.
+          # the placeholder -tokenhash- will be replaced with the token hash
+          # uri: 'http://acme.com/activate/-tokenhash-'
+
+          # if uri is a hash it is used as UriBuilder input (like in Routes.yaml)
+          # the placeholder -tokenhash- will be replaced with the token hash in the built uri
+          uri:
+            '@package': ~
+            '@subpackage': ~
+            '@controller': ~
+            '@format': ~
+            '@action': ~
+            arguments: ~
         mail:
           # name and email address to use for activation mails
           from:

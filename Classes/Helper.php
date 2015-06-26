@@ -120,9 +120,10 @@ class Helper {
 	 *
 	 * @param string $recipientAddress
 	 * @param Token $token
-	 * @return void
+	 * @param array $additionalTemplateVariables
+	 * @return int
 	 */
-	public function sendActivationMail($recipientAddress, Token $token) {
+	public function sendActivationMail($recipientAddress, Token $token, array $additionalTemplateVariables = array()) {
 		$preset = $token->getPreset();
 		$activationLink = $this->getActivationLink($token);
 
@@ -131,23 +132,23 @@ class Helper {
 			->setTo($recipientAddress)
 			->setSubject($preset['mail']['subject']);
 
-		$this->fluidView->setTemplatePathAndFilename($preset['mail']['message']['plaintext']);
-		$this->fluidView->assignMultiple([
+		$templateVariables = array_merge([
 			'activationLink' => $activationLink,
-			'recipientAddress' => $recipientAddress
-		]);
+			'recipientAddress' => $recipientAddress,
+			'token' => $token,
+			'meta' => $token->getMeta()
+		], $additionalTemplateVariables);
+
+		$this->fluidView->setTemplatePathAndFilename($preset['mail']['message']['plaintext']);
+		$this->fluidView->assignMultiple($templateVariables);
 		$mail->setBody($this->fluidView->render(), 'text/plain');
 
 		if (isset($preset['mail']['html'])) {
 			$this->fluidView->setTemplatePathAndFilename($preset['mail']['message']['html']);
-			$this->fluidView->assignMultiple([
-				'activationLink' => $activationLink,
-				'recipientAddress' => $recipientAddress,
-				'meta' => $token->getMeta()
-			]);
+			$this->fluidView->assignMultiple($templateVariables);
 			$mail->setBody($this->fluidView->render(), 'text/html');
 		}
-		$mail->send();
+		return $mail->send();
 	}
 
 	/**

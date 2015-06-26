@@ -122,6 +122,7 @@ class Helper {
 			$this->uriBuilder->setRequest($this->request);
 			$uri = $this->uriBuilder
 				->setCreateAbsoluteUri(TRUE)
+				->setFormat($routerConfiguration['@format'])
 				->uriFor(
 					$routerConfiguration['@action'],
 					$routerConfiguration['arguments'],

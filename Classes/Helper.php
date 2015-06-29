@@ -126,6 +126,7 @@ class Helper {
 	 */
 	public function getActivationLink(Token $token) {
 		$activationConfiguration = $token->getPreset()['activation'];
+		$tokenHash = $token->getHash();
 
 		if ($activationConfiguration['uri'] === NULL) {
 			throw new \RuntimeException('Building activation link failed, no uri configuration is set', 1434728943);
@@ -144,15 +145,14 @@ class Helper {
 					$routerConfiguration['@subpackage']
 				);
 		} elseif (is_string($activationConfiguration['uri'])) {
-			$link = sprintf($activationConfiguration['uri'], $token->getHash());
+			$uri = $activationConfiguration['uri'];
 		} else {
 			throw new \RuntimeException('Building activation link failed, uri configuration is invalid (neither array nor string)', 1434732898);
 		}
+
+		$this->logger->log(sprintf('Activation link built for token with hash %s', $tokenHash, $token->getIdentifier()), LOG_INFO);
+
 		return str_replace('-tokenhash-', $tokenHash, $uri);
-
-		$this->logger->log(sprintf('Activation link built for token with hash %s', $token->getHash(), $token->getIdentifier()), LOG_INFO);
-
-		return $link;
 	}
 
 	/**

@@ -2,6 +2,6 @@ Hello,
 
 please click on the following link to activate:
 
-{activationLink}
+{activationLink -> f:format.raw()}
 
 This email has been sent to {recipientAddress}.

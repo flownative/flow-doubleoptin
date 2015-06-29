@@ -178,5 +178,5 @@ The logging parameters can be changed by adjusting the ``Flownative.DoubleOptIn.
 
 .. literalinclude:: ../Configuration/Settings.yaml
    :language: yaml
-   :lines: 1-2,29-
-   :emphasize-lines: 4-
+   :lines: 1-2,39-
+   :emphasize-lines: 3-

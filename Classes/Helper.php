@@ -43,6 +43,12 @@ class Helper {
 	protected $uriBuilder;
 
 	/**
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Log\LoggerInterface
+	 */
+	protected $logger;
+
+	/**
 	 * @var ActionRequest
 	 */
 	protected $request;
@@ -81,6 +87,9 @@ class Helper {
 			$preset['lifetime']
 		);
 
+		$expiryTime = new \DateTime(sprintf('now +%s seconds', $preset['lifetime']));
+		$this->logger->log(sprintf('Token with hash %s generated for identifier %s (valid until %s) [%s]', $tokenHash, $identifier, $expiryTime->format('Y-m-d H:i:s'), $presetName), LOG_INFO);
+
 		return new Token($tokenHash, $identifier, $preset, $meta);
 	}
 
@@ -93,12 +102,17 @@ class Helper {
 	 * @return Token
 	 */
 	public function validateTokenHash($tokenHash) {
-		if (!$this->tokenCache->has($tokenHash)) {
+		$tokenData = $this->tokenCache->get($tokenHash);
+
+		if ($tokenData === FALSE) {
+			$this->logger->log(sprintf('Validation of token hash %s failed', $tokenHash), LOG_INFO);
+
 			return NULL;
 		}
 
-		$tokenData = $this->tokenCache->get($tokenHash);
 		$this->tokenCache->remove($tokenHash);
+
+		$this->logger->log(sprintf('Validated token hash %s for identifier %s', $tokenHash, $tokenData['identifier']), LOG_INFO);
 
 		return new Token($tokenHash, $tokenData['identifier'], $this->getPreset($tokenData['presetName']), $tokenData['meta']);
 	}
@@ -135,6 +149,8 @@ class Helper {
 		} else {
 			throw new \RuntimeException('Building activation link failed, uri configuration is invalid (neither array nor string)', 1434732898);
 		}
+
+		$this->logger->log(sprintf('Activation link built for token with hash %s', $tokenHash, $token->getIdentifier()), LOG_INFO);
 
 		return str_replace('-tokenhash-', $tokenHash, $uri);
 	}

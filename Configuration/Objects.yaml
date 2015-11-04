@@ -7,3 +7,17 @@ Flownative\DoubleOptIn\Helper:
         arguments:
           1:
             value: Flownative_DoubleOptIn_TokenCache
+
+    logger:
+      object:
+        factoryObjectName: TYPO3\Flow\Log\LoggerFactory
+        factoryMethodName: create
+        arguments:
+          1:
+            value: 'Flownative_DoubleOptIn'
+          2:
+            value: 'TYPO3\Flow\Log\Logger'
+          3:
+            setting: Flownative.DoubleOptIn.logger.backend
+          4:
+            setting: Flownative.DoubleOptIn.logger.backendOptions

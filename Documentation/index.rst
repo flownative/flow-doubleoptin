@@ -40,6 +40,7 @@ following `default` preset is used:
 
 .. literalinclude:: ../Configuration/Settings.yaml
    :language: yaml
+   :lines: 1-27
    :emphasize-lines: 5-
 
 To adjust this default preset, override as usual:
@@ -119,7 +120,7 @@ When generating a Token, you can pass data in the ``$meta`` argument. It is stor
 can be retrieved when the token is validated:
 
 .. code-block:: php
-   :emphasize-lines: 1,10
+   :emphasize-lines: 4,9,14
 
    $token = $this->doubleOptInHelper->generateToken(
    	$recipientAddress,
@@ -152,3 +153,30 @@ To implement your own logic completely, fetching the hash from a token can be li
 .. code-block:: php
 
    $hash = $token->getHash();
+
+Generated log entries
+---------------------
+
+To be able to prove correct use of double opt-in, having logs of token generation and validation is
+needed. The package logs to ``DoubleOptIn.log`` by default and produces the following log entries:
+
+.. code-block:: none
+
+  Token with hash 67...a5 generated for identifier foo@bar.com (valid until 2015-06-26 20:21:35) [newsletter]
+  Activation link built for token with hash 67...a5
+  Activation mail sent to foo@bar.com for token with hash 67...a5
+
+  Validated token hash 67...a5 for identifier foo@bar.com
+
+  Validation of token hash 79...5f failed
+
+In this case the identifier used for token generation was "foo@bar.com". Of course the entries are prefixed
+as usual with the timestamp, log level and the key "DoubleOptIn". The value in square brackets at the end of
+the token generation log entry is the preset name that was used.
+
+The logging parameters can be changed by adjusting the ``Flownative.DoubleOptIn.logger`` settings:
+
+.. literalinclude:: ../Configuration/Settings.yaml
+   :language: yaml
+   :lines: 1-2,39-
+   :emphasize-lines: 3-

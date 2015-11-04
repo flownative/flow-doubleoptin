@@ -35,3 +35,12 @@ Flownative:
           message:
             plaintext: 'resource://Flownative.DoubleOptIn/Private/Templates/ActivationMail.txt'
             html: ~
+
+    logger:
+      backend: TYPO3\Flow\Log\Backend\FileBackend
+      backendOptions:
+         logFileURL: '%FLOW_PATH_DATA%Logs/DoubleOptIn.log'
+         createParentDirectories: TRUE
+         severityThreshold: '%LOG_INFO%'
+         maximumLogFileSize: 10485760
+         logFilesToKeep: 10

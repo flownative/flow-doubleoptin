@@ -10,7 +10,7 @@
 		}
 	],
 	"require": {
-		"typo3/flow": "3.0.*"
+		"typo3/flow": "~3.0"
 	},
 	"suggest": {
 		"typo3/swiftmailer": "Used to send activation mails"

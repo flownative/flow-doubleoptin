@@ -7,6 +7,8 @@ Flownative:
         tokenLength: 32
         # how long a token should be valid after generation, in seconds
         lifetime: 86400
+        # if set to true, tokens are not removed from cache automatically when the activation link is called
+        preserveToken: true
         # configuration for building an activation link for a token
         activation:
           # if uri is given as a string, it is used as given.

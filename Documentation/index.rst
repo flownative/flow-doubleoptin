@@ -40,7 +40,7 @@ following `default` preset is used:
 
 .. literalinclude:: ../Configuration/Settings.yaml
    :language: yaml
-   :lines: 1-27
+   :lines: 1-39
    :emphasize-lines: 5-
 
 To adjust this default preset, override as usual:

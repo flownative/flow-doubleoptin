@@ -40,7 +40,7 @@ following `default` preset is used:
 
 .. literalinclude:: ../Configuration/Settings.yaml
    :language: yaml
-   :lines: 1-27
+   :lines: 1-37
    :emphasize-lines: 5-
 
 To adjust this default preset, override as usual:
@@ -97,7 +97,7 @@ method and can process the result, in this example by calling ``activateRegistra
    :emphasize-lines: 1,6
 
    $token = $this->doubleOptInHelper->validateTokenHash($tokenHash);
-   if ($result === FALSE) {
+   if ($token === NULL) {
    	// token was no valid
    } else {
    	// token was valid, $result contains a Token instance

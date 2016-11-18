@@ -6,6 +6,7 @@ namespace Flownative\DoubleOptIn;
  * the terms of the MIT license                                           *
  *                                                                        */
 
+use Neos\FluidAdaptor\View\StandaloneView;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\ActionRequest;
 use TYPO3\Flow\Utility\Algorithms;
@@ -32,7 +33,7 @@ class Helper {
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\Fluid\View\StandaloneView
+	 * @var StandaloneView
 	 */
 	protected $fluidView;
 
@@ -106,7 +107,6 @@ class Helper {
 
 		if ($tokenData === FALSE) {
 			$this->logger->log(sprintf('Validation of token hash %s failed', $tokenHash), LOG_INFO);
-
 			return NULL;
 		}
 

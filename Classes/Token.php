@@ -6,7 +6,7 @@ namespace Flownative\DoubleOptIn;
  * the terms of the MIT license                                           *
  *                                                                        */
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
 /**
  * A Token used in the double opt-in process.

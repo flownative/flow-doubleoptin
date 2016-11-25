@@ -7,10 +7,10 @@ namespace Flownative\DoubleOptIn;
  *                                                                        */
 
 use Neos\FluidAdaptor\View\StandaloneView;
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Mvc\ActionRequest;
-use TYPO3\Flow\Utility\Algorithms;
-use TYPO3\Flow\Utility\Arrays;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Mvc\ActionRequest;
+use Neos\Flow\Utility\Algorithms;
+use Neos\Flow\Utility\Arrays;
 use TYPO3\SwiftMailer\Message;
 
 /**
@@ -27,7 +27,7 @@ class Helper {
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Cache\Frontend\VariableFrontend
+	 * @var \Neos\Flow\Cache\Frontend\VariableFrontend
 	 */
 	protected $tokenCache;
 
@@ -39,13 +39,13 @@ class Helper {
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Mvc\Routing\UriBuilder
+	 * @var \Neos\Flow\Mvc\Routing\UriBuilder
 	 */
 	protected $uriBuilder;
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Log\LoggerInterface
+	 * @var \Neos\Flow\Log\LoggerInterface
 	 */
 	protected $logger;
 

@@ -10,7 +10,7 @@ use Neos\FluidAdaptor\View\StandaloneView;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Utility\Algorithms;
-use Neos\Flow\Utility\Arrays;
+use Neos\Utility\Arrays;
 use TYPO3\SwiftMailer\Message;
 
 /**

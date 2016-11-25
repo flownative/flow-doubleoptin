@@ -1,23 +1,28 @@
 {
-	"name": "flownative/flow-doubleoptin",
-	"type": "typo3-flow-package",
-	"description": "A package to build double opt-in solutions for Flow applications",
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "Karsten Dambekalns",
-			"email": "karsten@flownative.com"
-		}
-	],
-	"require": {
-		"typo3/flow": "~4.0"
-	},
-	"suggest": {
-		"typo3/swiftmailer": "Used to send activation mails"
-	},
-	"autoload": {
-		"psr-4": {
-			"Flownative\\DoubleOptIn\\": "Classes"
-		}
-	}
+    "name": "flownative/flow-doubleoptin",
+    "type": "typo3-flow-package",
+    "description": "A package to build double opt-in solutions for Flow applications",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Karsten Dambekalns",
+            "email": "karsten@flownative.com"
+        }
+    ],
+    "require": {
+        "typo3/flow": "~4.0"
+    },
+    "suggest": {
+        "typo3/swiftmailer": "Used to send activation mails"
+    },
+    "autoload": {
+        "psr-4": {
+            "Flownative\\DoubleOptIn\\": "Classes"
+        }
+    },
+    "extra": {
+        "applied-flow-migrations": [
+            "TYPO3.FLOW3-201201261636"
+        ]
+    }
 }

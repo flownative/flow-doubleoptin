@@ -1,6 +1,6 @@
 {
     "name": "flownative/flow-doubleoptin",
-    "type": "typo3-flow-package",
+    "type": "neos-package",
     "description": "A package to build double opt-in solutions for Flow applications",
     "license": "MIT",
     "authors": [
@@ -13,7 +13,7 @@
         "typo3/flow": "~4.0"
     },
     "suggest": {
-        "typo3/swiftmailer": "Used to send activation mails"
+        "neos/swiftmailer": "Used to send activation mails"
     },
     "autoload": {
         "psr-4": {

@@ -13,31 +13,33 @@ use Neos\Flow\Property\TypeConverter\AbstractTypeConverter;
 /**
  * Convert a string (tokenHash) into a Token object.
  */
-class TokenConverter extends AbstractTypeConverter {
+class TokenConverter extends AbstractTypeConverter
+{
 
-	/**
-	 * @var array
-	 */
-	protected $sourceTypes = ['string'];
+    /**
+     * @var array
+     */
+    protected $sourceTypes = ['string'];
 
-	/**
-	 * @var string
-	 */
-	protected $targetType = 'Flownative\DoubleOptIn\Token';
+    /**
+     * @var string
+     */
+    protected $targetType = 'Flownative\DoubleOptIn\Token';
 
-	/**
-	 * Actually convert from $source to $targetType, taking into account the fully
-	 * built $convertedChildProperties and $configuration.
-	 *
-	 * @param mixed $source
-	 * @param string $targetType
-	 * @param array $convertedChildProperties
-	 * @param \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration
-	 *
-	 * @return Token|NULL the target type, or NULL if it was not a valid token
-	 */
-	public function convertFrom($source, $targetType, array $convertedChildProperties = [], \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration = NULL) {
-		$doubleOptinHelper = new Helper();
-		return $doubleOptinHelper->validateTokenHash($source);
-	}
+    /**
+     * Actually convert from $source to $targetType, taking into account the fully
+     * built $convertedChildProperties and $configuration.
+     *
+     * @param mixed $source
+     * @param string $targetType
+     * @param array $convertedChildProperties
+     * @param \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration
+     *
+     * @return Token|NULL the target type, or NULL if it was not a valid token
+     */
+    public function convertFrom($source, $targetType, array $convertedChildProperties = [], \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration = NULL)
+    {
+        $doubleOptinHelper = new Helper();
+        return $doubleOptinHelper->validateTokenHash($source);
+    }
 }

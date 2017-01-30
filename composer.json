@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "typo3/flow": "~4.0"
+        "neos/flow": "~4.0"
     },
     "suggest": {
         "neos/swiftmailer": "Used to send activation mails"

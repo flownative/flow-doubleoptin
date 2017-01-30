@@ -8,6 +8,7 @@ namespace Flownative\DoubleOptIn\TypeConverter;
 
 use Flownative\DoubleOptIn\Helper;
 use Flownative\DoubleOptIn\Token;
+use Neos\Flow\Property\PropertyMappingConfigurationInterface;
 use Neos\Flow\Property\TypeConverter\AbstractTypeConverter;
 
 /**
@@ -33,13 +34,13 @@ class TokenConverter extends AbstractTypeConverter
      * @param mixed $source
      * @param string $targetType
      * @param array $convertedChildProperties
-     * @param \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration
+     * @param PropertyMappingConfigurationInterface $configuration
      *
      * @return Token|NULL the target type, or NULL if it was not a valid token
      */
-    public function convertFrom($source, $targetType, array $convertedChildProperties = [], \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration = NULL)
+    public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = NULL)
     {
-        $doubleOptinHelper = new Helper();
-        return $doubleOptinHelper->validateTokenHash($source);
+        $doubleOptInHelper = new Helper();
+        return $doubleOptInHelper->validateTokenHash($source);
     }
 }

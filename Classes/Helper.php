@@ -6,6 +6,9 @@ namespace Flownative\DoubleOptIn;
  * the terms of the MIT license                                           *
  *                                                                        */
 
+use Neos\Cache\Frontend\VariableFrontend;
+use Neos\Flow\Log\LoggerInterface;
+use Neos\Flow\Mvc\Routing\UriBuilder;
 use Neos\FluidAdaptor\View\StandaloneView;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\ActionRequest;
@@ -28,7 +31,7 @@ class Helper
 
     /**
      * @Flow\Inject
-     * @var \Neos\Cache\Frontend\VariableFrontend
+     * @var VariableFrontend
      */
     protected $tokenCache;
 
@@ -40,13 +43,13 @@ class Helper
 
     /**
      * @Flow\Inject
-     * @var \Neos\Flow\Mvc\Routing\UriBuilder
+     * @var UriBuilder
      */
     protected $uriBuilder;
 
     /**
      * @Flow\Inject
-     * @var \Neos\Flow\Log\LoggerInterface
+     * @var LoggerInterface
      */
     protected $logger;
 

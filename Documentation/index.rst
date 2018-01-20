@@ -97,7 +97,7 @@ method and can process the result, in this example by calling ``activateRegistra
    :emphasize-lines: 1,6
 
    $token = $this->doubleOptInHelper->validateTokenHash($tokenHash);
-   if ($result === FALSE) {
+   if ($token === NULL) {
    	// token was no valid
    } else {
    	// token was valid, $result contains a Token instance

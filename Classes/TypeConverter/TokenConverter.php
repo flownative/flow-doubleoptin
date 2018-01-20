@@ -8,36 +8,39 @@ namespace Flownative\DoubleOptIn\TypeConverter;
 
 use Flownative\DoubleOptIn\Helper;
 use Flownative\DoubleOptIn\Token;
-use TYPO3\Flow\Property\TypeConverter\AbstractTypeConverter;
+use Neos\Flow\Property\PropertyMappingConfigurationInterface;
+use Neos\Flow\Property\TypeConverter\AbstractTypeConverter;
 
 /**
  * Convert a string (tokenHash) into a Token object.
  */
-class TokenConverter extends AbstractTypeConverter {
+class TokenConverter extends AbstractTypeConverter
+{
 
-	/**
-	 * @var array
-	 */
-	protected $sourceTypes = ['string'];
+    /**
+     * @var array
+     */
+    protected $sourceTypes = ['string'];
 
-	/**
-	 * @var string
-	 */
-	protected $targetType = 'Flownative\DoubleOptIn\Token';
+    /**
+     * @var string
+     */
+    protected $targetType = 'Flownative\DoubleOptIn\Token';
 
-	/**
-	 * Actually convert from $source to $targetType, taking into account the fully
-	 * built $convertedChildProperties and $configuration.
-	 *
-	 * @param mixed $source
-	 * @param string $targetType
-	 * @param array $convertedChildProperties
-	 * @param \TYPO3\Flow\Property\PropertyMappingConfigurationInterface $configuration
-	 *
-	 * @return Token|NULL the target type, or NULL if it was not a valid token
-	 */
-	public function convertFrom($source, $targetType, array $convertedChildProperties = [], \TYPO3\Flow\Property\PropertyMappingConfigurationInterface $configuration = NULL) {
-		$doubleOptinHelper = new Helper();
-		return $doubleOptinHelper->validateTokenHash($source);
-	}
+    /**
+     * Actually convert from $source to $targetType, taking into account the fully
+     * built $convertedChildProperties and $configuration.
+     *
+     * @param mixed $source
+     * @param string $targetType
+     * @param array $convertedChildProperties
+     * @param PropertyMappingConfigurationInterface $configuration
+     *
+     * @return Token|NULL the target type, or NULL if it was not a valid token
+     */
+    public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = NULL)
+    {
+        $doubleOptInHelper = new Helper();
+        return $doubleOptInHelper->validateTokenHash($source);
+    }
 }

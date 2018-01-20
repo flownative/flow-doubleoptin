@@ -39,7 +39,7 @@ Flownative:
             html: ~
 
     logger:
-      backend: TYPO3\Flow\Log\Backend\FileBackend
+      backend: Neos\Flow\Log\Backend\FileBackend
       backendOptions:
          logFileURL: '%FLOW_PATH_DATA%Logs/DoubleOptIn.log'
          createParentDirectories: TRUE

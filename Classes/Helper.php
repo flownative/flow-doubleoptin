@@ -116,11 +116,30 @@ class Helper
             return NULL;
         }
 
-        $this->tokenCache->remove($tokenHash);
+        $preset = $this->getPreset($tokenData['presetName']);
+        if (! (isset($preset['preserveToken']) && $preset['preserveToken'])) {
+            $this->tokenCache->remove($tokenHash);
+        }
 
         $this->logger->log(sprintf('Validated token hash %s for identifier %s', $tokenHash, $tokenData['identifier']), LOG_INFO);
 
         return new Token($tokenHash, $tokenData['identifier'], $this->getPreset($tokenData['presetName']), $tokenData['meta']);
+    }
+
+    /**
+     * Removes the given token from the token cache.
+     *
+     * This is only necessary if the 'preserveToken' parameter of the token's preset is true.
+     * Otherwise tokens are deleted automatically.
+     *
+     * @param Token $token
+     * @return void
+     */
+    public function invalidateToken(Token $token)
+    {
+        $this->tokenCache->remove($token->getHash());
+
+        $this->logger->log(sprintf('Deleted token %s.', $token->getIdentifier()), LOG_INFO);
     }
 
     /**

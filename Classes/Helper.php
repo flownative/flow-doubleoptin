@@ -154,7 +154,6 @@ class Helper
      *
      * @param Token $token
      * @return string
-     * @throws InvalidTokenException
      */
     public function getActivationLink(Token $token)
     {

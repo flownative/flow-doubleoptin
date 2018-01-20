@@ -1,12 +1,15 @@
 <?php
 namespace Flownative\DoubleOptIn;
 
-/*                                                                        *
- * This is free software; you can redistribute it and/or modify it under  *
- * the terms of the MIT license                                           *
- *                                                                        */
-
-use Neos\Flow\Annotations as Flow;
+/*
+ * This file is part of the Flownative.DoubleOptIn package.
+ *
+ * (c) 2015, Flownative GmbH
+ *
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ */
 
 /**
  * A Token used in the double opt-in process.
@@ -15,7 +18,6 @@ use Neos\Flow\Annotations as Flow;
  */
 class Token
 {
-
     /**
      * @var string
      */

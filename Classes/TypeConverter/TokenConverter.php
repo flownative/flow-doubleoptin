@@ -1,10 +1,15 @@
 <?php
 namespace Flownative\DoubleOptIn\TypeConverter;
 
-/*                                                                        *
- * This is free software; you can redistribute it and/or modify it under  *
- * the terms of the MIT license                                           *
- *                                                                        */
+/*
+ * This file is part of the Flownative.DoubleOptIn package.
+ *
+ * (c) 2015, Flownative GmbH
+ *
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ */
 
 use Flownative\DoubleOptIn\Helper;
 use Flownative\DoubleOptIn\Token;
@@ -16,7 +21,6 @@ use Neos\Flow\Property\TypeConverter\AbstractTypeConverter;
  */
 class TokenConverter extends AbstractTypeConverter
 {
-
     /**
      * @var array
      */
@@ -35,12 +39,13 @@ class TokenConverter extends AbstractTypeConverter
      * @param string $targetType
      * @param array $convertedChildProperties
      * @param PropertyMappingConfigurationInterface $configuration
-     *
-     * @return Token|NULL the target type, or NULL if it was not a valid token
+     * @return Token|null the target type, or NULL if it was not a valid token
+     * @throws \Flownative\DoubleOptIn\UnknownPresetException
      */
-    public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = NULL)
+    public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = null)
     {
         $doubleOptInHelper = new Helper();
+
         return $doubleOptInHelper->validateTokenHash($source);
     }
 }

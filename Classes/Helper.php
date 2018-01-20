@@ -1,20 +1,25 @@
 <?php
 namespace Flownative\DoubleOptIn;
 
-/*                                                                        *
- * This is free software; you can redistribute it and/or modify it under  *
- * the terms of the MIT license                                           *
- *                                                                        */
+/*
+ * This file is part of the Flownative.DoubleOptIn package.
+ *
+ * (c) 2015, Flownative GmbH
+ *
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ */
 
 use Neos\Cache\Frontend\VariableFrontend;
-use Neos\Flow\Log\LoggerInterface;
-use Neos\Flow\Mvc\Routing\UriBuilder;
-use Neos\FluidAdaptor\View\StandaloneView;
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Log\LoggerInterface;
 use Neos\Flow\Mvc\ActionRequest;
+use Neos\Flow\Mvc\Routing\UriBuilder;
 use Neos\Flow\Utility\Algorithms;
-use Neos\Utility\Arrays;
+use Neos\FluidAdaptor\View\StandaloneView;
 use Neos\SwiftMailer\Message;
+use Neos\Utility\Arrays;
 
 /**
  * This class allows to easily build a double opt-in mechanism.
@@ -28,7 +33,6 @@ use Neos\SwiftMailer\Message;
  */
 class Helper
 {
-
     /**
      * @Flow\Inject
      * @var VariableFrontend
@@ -75,6 +79,7 @@ class Helper
      * @param string $presetName
      * @param array $meta
      * @return Token
+     * @throws UnknownPresetException
      */
     public function generateToken($identifier, $presetName = 'default', array $meta = [])
     {
@@ -106,18 +111,20 @@ class Helper
      *
      * @param $tokenHash
      * @return Token
+     * @throws UnknownPresetException
      */
     public function validateTokenHash($tokenHash)
     {
         $tokenData = $this->tokenCache->get($tokenHash);
 
-        if ($tokenData === FALSE) {
+        if ($tokenData === false) {
             $this->logger->log(sprintf('Validation of token hash %s failed', $tokenHash), LOG_INFO);
-            return NULL;
+
+            return null;
         }
 
         $preset = $this->getPreset($tokenData['presetName']);
-        if (! (isset($preset['preserveToken']) && $preset['preserveToken'])) {
+        if (!(isset($preset['preserveToken']) && $preset['preserveToken'])) {
             $this->tokenCache->remove($tokenHash);
         }
 
@@ -154,14 +161,14 @@ class Helper
         $activationConfiguration = $token->getPreset()['activation'];
         $tokenHash = $token->getHash();
 
-        if ($activationConfiguration['uri'] === NULL) {
+        if ($activationConfiguration['uri'] === null) {
             throw new \RuntimeException('Building activation link failed, no uri configuration is set', 1434728943);
         } elseif (is_array($activationConfiguration['uri'])) {
             $routerConfiguration = $activationConfiguration['uri'];
 
             $this->uriBuilder->setRequest($this->request);
             $uri = $this->uriBuilder
-                ->setCreateAbsoluteUri(TRUE)
+                ->setCreateAbsoluteUri(true)
                 ->setFormat($routerConfiguration['@format'])
                 ->uriFor(
                     $routerConfiguration['@action'],
@@ -217,6 +224,7 @@ class Helper
             $this->fluidView->assignMultiple($templateVariables);
             $mail->setBody($this->fluidView->render(), 'text/html');
         }
+
         return $mail->send();
     }
 
@@ -249,6 +257,6 @@ class Helper
         $default = $this->presets['default'];
         $preset = $this->presets[$presetName];
 
-        return Arrays::arrayMergeRecursiveOverrule($default, $preset, TRUE);
+        return Arrays::arrayMergeRecursiveOverrule($default, $preset, true);
     }
 }

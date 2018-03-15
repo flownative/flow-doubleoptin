@@ -44,7 +44,7 @@ class Helper {
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Log\LoggerInterface
+	 * @var \TYPO3\Flow\Log\SystemLoggerInterface
 	 */
 	protected $logger;
 

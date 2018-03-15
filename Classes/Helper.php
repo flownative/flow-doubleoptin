@@ -13,7 +13,7 @@ namespace Flownative\DoubleOptIn;
 
 use Neos\Cache\Frontend\VariableFrontend;
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Log\LoggerInterface;
+use Neos\Flow\Log\SystemLoggerInterface;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Mvc\Routing\UriBuilder;
 use Neos\Flow\Utility\Algorithms;
@@ -53,7 +53,7 @@ class Helper
 
     /**
      * @Flow\Inject
-     * @var LoggerInterface
+     * @var SystemLoggerInterface
      */
     protected $logger;
 

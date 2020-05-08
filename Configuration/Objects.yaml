@@ -10,14 +10,8 @@ Flownative\DoubleOptIn\Helper:
 
     logger:
       object:
-        factoryObjectName: Neos\Flow\Log\LoggerFactory
-        factoryMethodName: create
+        factoryObjectName: Neos\Flow\Log\PsrLoggerFactoryInterface
+        factoryMethodName: get
         arguments:
           1:
-            value: 'Flownative_DoubleOptIn'
-          2:
-            value: 'Neos\Flow\Log\Logger'
-          3:
-            setting: Flownative.DoubleOptIn.logger.backend
-          4:
-            setting: Flownative.DoubleOptIn.logger.backendOptions
+            value: 'systemLogger'

@@ -13,13 +13,13 @@ namespace Flownative\DoubleOptIn;
 
 use Neos\Cache\Frontend\VariableFrontend;
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Log\SystemLoggerInterface;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Mvc\Routing\UriBuilder;
 use Neos\Flow\Utility\Algorithms;
 use Neos\FluidAdaptor\View\StandaloneView;
 use Neos\SwiftMailer\Message;
 use Neos\Utility\Arrays;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class allows to easily build a double opt-in mechanism.
@@ -53,7 +53,7 @@ class Helper
 
     /**
      * @Flow\Inject
-     * @var SystemLoggerInterface
+     * @var LoggerInterface
      */
     protected $logger;
 
@@ -99,7 +99,7 @@ class Helper
         );
 
         $expiryTime = new \DateTime(sprintf('now +%s seconds', $preset['lifetime']));
-        $this->logger->log(sprintf('Token with hash %s generated for identifier %s (valid until %s) [%s]', $tokenHash, $identifier, $expiryTime->format('Y-m-d H:i:s'), $presetName), LOG_INFO);
+        $this->logger->info(sprintf('Token with hash %s generated for identifier %s (valid until %s) [%s]', $tokenHash, $identifier, $expiryTime->format('Y-m-d H:i:s'), $presetName));
 
         return new Token($tokenHash, $identifier, $preset, $meta);
     }
@@ -118,7 +118,7 @@ class Helper
         $tokenData = $this->tokenCache->get($tokenHash);
 
         if ($tokenData === false) {
-            $this->logger->log(sprintf('Validation of token hash %s failed', $tokenHash), LOG_INFO);
+            $this->logger->info(sprintf('Validation of token hash %s failed', $tokenHash));
 
             return null;
         }
@@ -128,7 +128,7 @@ class Helper
             $this->tokenCache->remove($tokenHash);
         }
 
-        $this->logger->log(sprintf('Validated token hash %s for identifier %s', $tokenHash, $tokenData['identifier']), LOG_INFO);
+        $this->logger->info(sprintf('Validated token hash %s for identifier %s', $tokenHash, $tokenData['identifier']));
 
         return new Token($tokenHash, $tokenData['identifier'], $this->getPreset($tokenData['presetName']), $tokenData['meta']);
     }
@@ -146,7 +146,7 @@ class Helper
     {
         $this->tokenCache->remove($token->getHash());
 
-        $this->logger->log(sprintf('Deleted token %s.', $token->getIdentifier()), LOG_INFO);
+        $this->logger->info(sprintf('Deleted token %s.', $token->getIdentifier()));
     }
 
     /**
@@ -182,7 +182,7 @@ class Helper
             throw new \RuntimeException('Building activation link failed, uri configuration is invalid (neither array nor string)', 1434732898);
         }
 
-        $this->logger->log(sprintf('Activation link built for token with hash %s', $tokenHash, $token->getIdentifier()), LOG_INFO);
+        $this->logger->info(sprintf('Activation link built for token with hash %s (id: %s)', $tokenHash, $token->getIdentifier()));
 
         return str_replace('-tokenhash-', $tokenHash, $uri);
     }
